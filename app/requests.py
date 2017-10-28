@@ -14,4 +14,4 @@ def configure_request(app):
     if u dont need them you can remove them
     '''
     api_key = app.config['API_KEY']
-    base_url = app.config['BASE_UL']
+    base_url = app.config['BASE_URL']
