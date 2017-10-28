@@ -13,5 +13,5 @@ def configure_request(app):
     Here we can import  below and below is just but an example 
     if u dont need them you can remove them
     '''
-     api_key = app.config['API_KEY']
+    api_key = app.config['API_KEY']
     base_url = app.config['BASE_UL']
