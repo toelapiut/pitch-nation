@@ -9,4 +9,12 @@ main blueprint instance instead of the app instance
 '''
 @main.route('/')
 def index():
-    #.......
+    
+    '''
+    View root page function that returns the index
+     page and its data
+    '''
+    message='Hello World Welcome to flask'
+
+    return render_template('index.html', message=message)
+
