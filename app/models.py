@@ -1,5 +1,7 @@
 from . import db
-##Here we will have our Class that contain instances
+from werkzeug.security import generate_password_hash,check_password_hash
+
+##In here we will have our Class that contain instances
 
 class User(db.Model):
   __tablename__='users'
