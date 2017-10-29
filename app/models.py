@@ -11,6 +11,8 @@ class User(UserMixin,db.Model):
   username=db.Column(db.String(255))
   email=db.Column(db.String(255),unique=True,index=True)
   role_id=db.Column(db.Integer,db.ForeignKey('roles.id'))
+  bio=db.Column(db.String(255))
+  profile_pic_path=db.Column(db.String(255))
   pass_secure=db.Column(db.String(Length(min=7,max=80)))
 
     @property
@@ -23,10 +25,11 @@ class User(UserMixin,db.Model):
 
     def verify_password(self,password):
       return check_password_hash(self.pass_secure,password)
-@login_manager.user_loader
-def loader_user(user_id):
-	return User.query.get(int(user_id))
-    
+
+	@login_manager.user_loader
+	def loader_user(user_id):
+		return User.query.get(int(user_id))
+	
     
   def __repr__(self):
     return f'User {self.username}'
