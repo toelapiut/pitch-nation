@@ -15,21 +15,21 @@ class User(UserMixin,db.Model):
   profile_pic_path=db.Column(db.String(255))
   pass_secure=db.Column(db.String(Length(min=7,max=80)))
 
-    @property
-    def password(self):
-      raise AttributeError('You cannot read the attribute')
+  @property
+  def password(self):
+    raise AttributeError('You cannot read the attribute')
 
-    @password.setter
-    def password(self,password):
-      self.pass_secure=generate_password_hash(password)
+  @password.setter
+  def password(self,password):
+    self.pass_secure=generate_password_hash(password)
 
-    def verify_password(self,password):
-      return check_password_hash(self.pass_secure,password)
+  def verify_password(self,password):
+    return check_password_hash(self.pass_secure,password)
 
-	@login_manager.user_loader
-	def loader_user(user_id):
-		return User.query.get(int(user_id))
-	
+  @login_manager.user_loader
+  def loader_user(user_id):
+    return User.query.get(int(user_id))
+
     
   def __repr__(self):
     return f'User {self.username}'
