@@ -16,7 +16,9 @@ class ProdConfig(Config):
 
 
 class DevConfig(Config):
-    DEBUG = True
+    
+     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://toel:KingChase@localhost/pitchnation'
+    DEBUG = True    
 
 config_options = {
 'development':DevConfig,
