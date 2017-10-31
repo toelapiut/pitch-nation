@@ -1,7 +1,3 @@
-# export API_KEY=<Your api key>
-
-export SECRET_KEY=<Your secret key>
-export MAIL_USERNAME=<Your Email Address>
-export MAIL_PASSWORD=<Your Email Password>
+export SECRET_KEY=asdfghjkl
 
 python3.6 manage.py server
