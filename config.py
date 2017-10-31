@@ -2,7 +2,7 @@ import os
 
 class Config:
 
-    SECRET_KEY = os.environ.get('qwerty12')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     UPLOADED_PHOTOS_DEST='app/static/photos'
     #  email configurations
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -21,7 +21,7 @@ class ProdConfig(Config):
 
 class DevConfig(Config):
 
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://toel:KingChase@localhost/pitchnation'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://toel:KingChase@localhost/pitch_nation'
     DEBUG = True    
 
 config_options = {
