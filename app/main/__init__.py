@@ -4,4 +4,4 @@ from flask import Blueprint
 #the name of the blueprint "Main" and  __name__ variable to find the location of the blueprint.
 
 main=Blueprint('main',__name__)
-from . import views,error
+from . import views,error,forms
