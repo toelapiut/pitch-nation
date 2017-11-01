@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import db
 from . import login_manager
+from datetime import datetime
 
 ##In here we will have our Class that contain instances
 
@@ -12,8 +13,8 @@ class User(UserMixin,db.Model):
 	email=db.Column(db.String(255),unique=True,index=True)
 	bio=db.Column(db.String(255))
 	profile_pic_path=db.Column(db.String(255))
-	pass_secure=db.Column(db.String(80))
-	result_id=db.Column(db.Integer,db.ForeignKey('results.id'))
+	pass_secure = db.Column(db.String(255))
+	pitchs=db.relationship('Pitch',backref='user',lazy='dynamic')
 
 	@property
 	def password(self):
@@ -35,15 +36,21 @@ class User(UserMixin,db.Model):
 		return f'User {self.username}'
 
 
-class Result(db.Model):
-	__tablename__='results'
+class Pitch(db.Model):
+	__tablename__='pitches'
 	id=db.Column(db.Integer,primary_key=True)
-	review=db.Column(db.String(255))
-	voteup=db.Column(db.Integer)
-	votedown=db.Column(db.Integer)
-	user=db.relationship('User',backref='result',lazy='dynamic')
-
+	head=db.Column(db.String(255))
+	body=db.Column(db.String(255))
+	time=db.Column(db.DateTime,default=datetime.utcnow)
+	user_id=db.Column(db.Integer,db.ForeignKey('users.id'))
+	category_id=db.Column(db.Integer,db.ForeignKey('categories.id'))	
 
 	def __repr__(self):
 		return f'User{self.review}'
+
+class Category(db.Model):
+	__tablename__='categories'
+	id=db.Column(db.Integer,primary_key=True)
+	review=db.Column(db.String(255))
+	pitchcat=db.relationship('Pitch',backref='category',lazy='dynamic')
 
