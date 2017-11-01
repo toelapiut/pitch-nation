@@ -1,32 +1,46 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 ##remember to import classes from ..requests
-from .forms import UpdateProfile
-from .. import db,photos
+from .forms import pitchIdea,UpdateProfile
+from .. import db, photos
 from flask_login import login_required
+from ..models import User,Pitch,Category
 '''
 We then define our route decorators using the 
 main blueprint instance instead of the app instance
 '''
-@main.route('/')
+@main.route('/',methods=['GET','POST'])
+@login_required
 def index():
-    
-    '''
-    View root page function that returns the index
-     page and its data
-    '''
-    message='Hello World Welcome to flask'
 
-    return render_template('index.html', message=message)
+    form=pitchIdea()
+
+
+    pitch=Pitch.query.all()
+    if form.validate_on_submit():
+        title=form.title.data
+        body=form.pitch.data
+
+        new_pitch=Pitch(head=title,body=body)
+        db.session.add(new_pitch)
+        db.session.commit()
+
+    return render_template('index.html',pitch=pitch,form=form)
 
 @main.route('/user/<uname>')
 def profile(uname):
     user=User.query.filter_by(username=uname).first()
-    
+    form=UpdateProfile()
     if user is None:
         abort(404)
 
-    return render_template('profile/profile.html',user=user)
+    
+    if form.validate_on_submit():
+        User.bio=form.bio.data
+        db.session.add(user)
+        db.session.commit()
+
+    return render_template('profile/update.html',user=user.username,form=form)
 
 
 @main.route('/user/<uname>/update',methods=['GET','POST'])
@@ -42,9 +56,9 @@ def update_profile(uname):
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('.profile',uname=user.username))
+        return redirect(url_for('.profile',uname=user.username,form=form))
 
-    return render_template('profile/update.html',form=form)
+    return render_template('profile/update.html',form=form,user=user)
 
 
 @main.route('/user/<uname>/update/pic',methods=['POST'])
@@ -57,4 +71,5 @@ def  update_pic(uname):
         user.profile_pic_path=path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
 
